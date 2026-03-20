@@ -10,6 +10,8 @@
         body { font-family: 'Inter', sans-serif; }
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
+        /* Transisi halus untuk textarea */
+        textarea { transition: height 0.2s ease; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
@@ -17,7 +19,7 @@
     <div class="max-w-3xl w-full mb-6 text-center mt-4">
         <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Content Engine Pro</h1>
         <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto px-2">
-            Platform otomatisasi copywriting berbasis AI. Hasilkan naskah, caption, dan metadata berkualitas tinggi. Semua proses berjalan di browser Anda.
+            Platform otomatisasi copywriting berbasis AI. Hasilkan naskah, caption, dan metadata berkualitas tinggi.
         </p>
     </div>
 
@@ -33,21 +35,6 @@
                 <div class="flex items-center justify-between mt-2">
                     <p id="keyStatus" class="text-xs text-slate-500">Kunci tersimpan aman secara lokal di browser.</p>
                 </div>
-                
-                <details class="mt-3 group">
-                    <summary class="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-800 select-none flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
-                        Cara mendapatkan API Key gratis
-                    </summary>
-                    <div class="mt-3 p-4 bg-white border border-blue-100 rounded-md text-sm text-slate-600 leading-relaxed shadow-sm">
-                        <ol class="list-decimal pl-4 space-y-1">
-                            <li>Buka <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 hover:underline font-medium">Google AI Studio</a>.</li>
-                            <li>Login menggunakan akun Google Anda.</li>
-                            <li>Klik tombol biru <strong>"Create API key"</strong>.</li>
-                            <li>Salin kunci yang muncul dan tempelkan di kotak atas.</li>
-                        </ol>
-                    </div>
-                </details>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -61,19 +48,16 @@
                 <div>
                     <label class="block text-sm font-semibold text-slate-800 mb-2">Format Media Sosial</label>
                     <select id="sosmedType" class="w-full px-3 py-2.5 border border-slate-300 rounded-md text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white cursor-pointer">
-                        <option value="tiktok">TikTok Strategy (Hook & Caption)</option>
-                        <option value="ig">Instagram Layout (Carousel / Reels)</option>
-                        <option value="youtube">YouTube SEO (Title, Desc, Tags)</option>
-                        <option value="twitter">Twitter / X (Thread Outline)</option>
-                        <option value="linkedin">LinkedIn (Professional Post)</option>
-                        <option value="fb_ads">Facebook Ads (Copywriting)</option>
+                        <option value="tiktok">TikTok Strategy (Hook, Naskah, Hashtag)</option>
+                        <option value="ig">Instagram Layout (Judul, Caption, Hashtag)</option>
+                        <option value="youtube">YouTube SEO (Judul, Deskripsi, Tags)</option>
                     </select>
                 </div>
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-800 mb-2">Topik atau Detail Spesifik</label>
-                <textarea id="topic" rows="3" class="w-full px-3 py-3 border border-slate-300 rounded-md text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none resize-y" placeholder="Contoh: Manfaat belajar programming untuk anak SMA..."></textarea>
+                <textarea id="topic" rows="3" class="w-full px-3 py-3 border border-slate-300 rounded-md text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none resize-y" placeholder="Contoh: Fakta unik musang sebagai hewan penyebar biji kopi..."></textarea>
             </div>
 
             <button id="btnGenerate" onclick="generateContent()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors text-sm shadow-sm flex justify-center items-center gap-2">
@@ -83,31 +67,25 @@
         </div>
 
         <div id="resultArea" class="mt-8 hidden border-t border-slate-200 pt-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
-                <h3 class="text-base font-semibold text-slate-900">Hasil Generate</h3>
-                <button onclick="copyToClipboard(event)" class="text-sm px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded transition-colors font-medium border border-slate-200">
-                    Copy Text
-                </button>
-            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Hasil Generate</h3>
             
             <div id="loading" class="hidden py-12 text-center text-sm text-slate-500 flex flex-col items-center justify-center gap-3">
                 <svg class="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Sedang memproses dengan AI...
+                Sedang membedah struktur konten...
             </div>
             
-            <textarea id="output" rows="12" class="w-full px-4 py-4 border border-slate-200 rounded-md bg-slate-50 text-sm outline-none font-mono text-slate-700 leading-relaxed resize-y" readonly></textarea>
+            <div id="outputContainer" class="space-y-5"></div>
         </div>
     </div>
 
     <script>
-        // Load API Key & Models on startup
         document.addEventListener("DOMContentLoaded", () => {
             const savedKey = localStorage.getItem('gemini_api_key');
             if(savedKey) {
                 document.getElementById('apiKey').value = savedKey;
                 document.getElementById('keyStatus').innerText = "✅ API Key aktif dari local storage.";
                 document.getElementById('keyStatus').classList.replace('text-slate-500', 'text-emerald-600');
-                loadModels(savedKey); // Langsung fetch model saat load
+                loadModels(savedKey);
             }
         });
 
@@ -123,7 +101,6 @@
             }
         }
 
-        // FUNGSI BARU: Fetch model langsung dari Google AI Studio
         async function loadModels(apiKey) {
             const modelSelect = document.getElementById('aiModel');
             modelSelect.innerHTML = '<option value="">Memuat daftar model...</option>';
@@ -132,10 +109,8 @@
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
                 const data = await response.json();
-
                 if (data.error) throw new Error(data.error.message);
 
-                // Filter hanya model yang support generate text/content dan mengandung nama gemini
                 const validModels = data.models.filter(m => 
                     m.supportedGenerationMethods.includes("generateContent") && 
                     m.name.includes("gemini")
@@ -149,15 +124,12 @@
 
                 validModels.forEach(model => {
                     const option = document.createElement('option');
-                    // Value-nya adalah path asli (cth: models/gemini-2.5-flash)
                     option.value = model.name; 
                     option.text = `${model.displayName} (${model.version})`;
                     modelSelect.appendChild(option);
                 });
-
                 modelSelect.disabled = false;
                 document.getElementById('keyStatus').innerText = "✅ Key aktif & Model berhasil dimuat.";
-
             } catch (error) {
                 modelSelect.innerHTML = '<option value="">Gagal memuat model. Cek API Key Anda.</option>';
                 document.getElementById('keyStatus').innerText = "❌ Gagal memuat model. API Key mungkin salah.";
@@ -167,90 +139,121 @@
 
         async function generateContent() {
             const apiKey = document.getElementById('apiKey').value;
-            const selectedModel = document.getElementById('aiModel').value; // Mengambil model dari dropdown
+            const selectedModel = document.getElementById('aiModel').value;
             const sosmedType = document.getElementById('sosmedType').value;
             const topic = document.getElementById('topic').value;
             const btnGenerate = document.getElementById('btnGenerate');
             const resultArea = document.getElementById('resultArea');
-            const output = document.getElementById('output');
+            const outputContainer = document.getElementById('outputContainer');
             const loading = document.getElementById('loading');
 
-            if(!apiKey) {
-                alert("Mohon masukkan API Key dan klik Simpan.");
-                return;
-            }
-            if(!selectedModel) {
-                alert("Mohon pilih Model AI terlebih dahulu.");
-                return;
-            }
-            if(!topic) {
-                alert("Topik Konten tidak boleh kosong.");
+            if(!apiKey || !selectedModel || !topic) {
+                alert("Mohon lengkapi API Key, Model AI, dan Topik Konten.");
                 return;
             }
 
-            const noEmojiRule = "PENTING: Dilarang keras menggunakan emoji, emoticon, atau simbol grafis apapun. Gunakan bahasa profesional dan natural.";
+            // Aturan Super Ketat: Memaksa format JSON Array
+            const schemaPrompt = `Kamu harus merespon HANYA dengan format JSON Array persis seperti ini: [{"title": "Nama Bagian", "content": "Isi teks bagian tersebut"}]. Dilarang menggunakan emoji.`;
 
             let prompt = "";
             switch(sosmedType) {
-                case "tiktok": prompt = `Kamu Copywriter TikTok profesional. Buat 3 'Hook' untuk 3 detik pertama, naskah/caption, dan 7 hashtag relevan. Topik: ${topic}. ${noEmojiRule}`; break;
-                case "ig": prompt = `Kamu Social Media Specialist. Buat struktur Instagram Reels/Carousel (topik: ${topic}). Berikan judul, isi maks 5 slide, caption dengan CTA, dan 10 hashtag. ${noEmojiRule}`; break;
-                case "youtube": prompt = `Kamu pakar SEO YouTube. Untuk video topik ${topic}, berikan 3 Judul CTR tinggi, 2 paragraf Deskripsi natural, dan daftar 15 Tags pisah koma. ${noEmojiRule}`; break;
-                case "twitter": prompt = `Kamu ahli Twitter/X. Buat struktur Thread 5-7 tweet (topik: ${topic}). Buat hook kuat di tweet pertama. ${noEmojiRule}`; break;
-                case "linkedin": prompt = `Kamu ahli LinkedIn. Buat draf postingan profesional, berwawasan, pemicu diskusi (topik: ${topic}). ${noEmojiRule}`; break;
-                case "fb_ads": prompt = `Kamu Facebook Ads Copywriter. Buat copy iklan (topik: ${topic}). Sertakan Headline memikat, Body Text (manfaat), dan CTA kuat. ${noEmojiRule}`; break;
+                case "tiktok": 
+                    prompt = `Kamu Copywriter TikTok. Topik: ${topic}. ${schemaPrompt} Berikan 3 objek: 1) title: "Hook / Judul", content: 3 ide hook memikat. 2) title: "Isi Konten / Naskah", content: naskah video. 3) title: "Hashtags", content: 7 hashtag relevan dipisah spasi.`; 
+                    break;
+                case "ig": 
+                    prompt = `Kamu Social Media Specialist. Topik: ${topic}. ${schemaPrompt} Berikan 3 objek: 1) title: "Judul Konten", content: 1 judul yang mengundang klik. 2) title: "Isi Konten / Caption", content: Paragraf caption yang rapi dan memuat Call to Action. 3) title: "Hashtags", content: 10 hashtag relevan dipisah spasi.`; 
+                    break;
+                case "youtube": 
+                    prompt = `Kamu pakar SEO YouTube. Topik: ${topic}. ${schemaPrompt} Berikan 3 objek: 1) title: "Judul Video", content: 3 opsi judul CTR tinggi. 2) title: "Isi Konten / Deskripsi", content: 2 paragraf deskripsi lengkap dengan keyword. 3) title: "Tags", content: 15 tag spesifik dipisah dengan koma.`; 
+                    break;
             }
 
             btnGenerate.disabled = true;
             btnGenerate.innerHTML = "Memproses...";
-            btnGenerate.classList.add('opacity-75', 'cursor-not-allowed');
             resultArea.classList.remove('hidden');
-            output.classList.add('hidden');
+            outputContainer.innerHTML = '';
+            outputContainer.classList.add('hidden');
             loading.classList.remove('hidden');
             loading.classList.add('flex');
 
             try {
-                // Fetch URL sekarang menggunakan ${selectedModel} (contoh: models/gemini-2.5-flash)
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/${selectedModel}:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
+                        contents: [{ parts: [{ text: prompt }] }],
+                        // INI KUNCINYA: Memaksa AI mengeluarkan format JSON Murni
+                        generationConfig: { 
+                            temperature: 0.7,
+                            responseMimeType: "application/json" 
+                        }
                     })
                 });
 
                 const data = await response.json();
-                
                 if(data.error) throw new Error(data.error.message);
 
-                output.value = data.candidates[0].content.parts[0].text;
-                
+                // Mengambil hasil dan mem-parsing JSON
+                let rawText = data.candidates[0].content.parts[0].text;
+                let parsedData = JSON.parse(rawText);
+
+                // Render UI dinamis berdasarkan JSON Array
+                parsedData.forEach((section, index) => {
+                    const sectionId = `section-${index}`;
+                    const html = `
+                        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm transition-all hover:shadow-md">
+                            <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 flex justify-between items-center">
+                                <h4 class="font-bold text-slate-800 text-sm tracking-wide uppercase">${section.title}</h4>
+                                <button onclick="copySectionText('${sectionId}', this)" class="text-xs px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 rounded-md transition-all font-medium border border-slate-300 flex items-center gap-1.5 shadow-sm active:scale-95">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
+                                    Salin ${section.title}
+                                </button>
+                            </div>
+                            <div class="p-5 bg-white">
+                                <textarea id="${sectionId}" class="w-full bg-transparent text-sm text-slate-700 font-mono resize-none outline-none leading-relaxed" readonly>${section.content}</textarea>
+                            </div>
+                        </div>
+                    `;
+                    outputContainer.insertAdjacentHTML('beforeend', html);
+                    
+                    // Auto-resize tinggi textarea supaya ngepas dengan isinya (gak ada scroll)
+                    setTimeout(() => {
+                        const tx = document.getElementById(sectionId);
+                        tx.style.height = "auto";
+                        tx.style.height = (tx.scrollHeight) + "px";
+                    }, 50);
+                });
+
             } catch (error) {
-                output.value = "Gagal memproses permintaan:\n\n" + error.message + "\n\nPastikan API Key Anda valid, kuota tersedia, dan model mendukung teks.";
+                outputContainer.innerHTML = `<div class="p-4 bg-red-50 text-red-600 border border-red-200 rounded-md text-sm font-medium">Terjadi Kesalahan: ${error.message}</div>`;
             } finally {
                 loading.classList.add('hidden');
                 loading.classList.remove('flex');
-                output.classList.remove('hidden');
+                outputContainer.classList.remove('hidden');
                 btnGenerate.disabled = false;
-                btnGenerate.classList.remove('opacity-75', 'cursor-not-allowed');
                 btnGenerate.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/></svg> Generate Konten`;
             }
         }
 
-        function copyToClipboard(event) {
-            const outputText = document.getElementById('output');
+        function copySectionText(elementId, btnElement) {
+            const outputText = document.getElementById(elementId);
             if(!outputText.value) return;
             
             outputText.select();
             document.execCommand('copy');
+            window.getSelection().removeAllRanges(); 
             
-            const btn = event.currentTarget;
-            const originalText = btn.innerText;
-            btn.innerText = "Tersalin!";
-            btn.classList.add('bg-emerald-100', 'text-emerald-700', 'border-emerald-200');
+            const originalHTML = btnElement.innerHTML;
+            btnElement.innerHTML = "Berhasil Disalin! ✓";
+            btnElement.classList.replace('text-slate-700', 'text-blue-700');
+            btnElement.classList.replace('bg-white', 'bg-blue-50');
+            btnElement.classList.replace('border-slate-300', 'border-blue-200');
             
             setTimeout(() => {
-                btn.innerText = originalText;
-                btn.classList.remove('bg-emerald-100', 'text-emerald-700', 'border-emerald-200');
+                btnElement.innerHTML = originalHTML;
+                btnElement.classList.replace('text-blue-700', 'text-slate-700');
+                btnElement.classList.replace('bg-blue-50', 'bg-white');
+                btnElement.classList.replace('border-blue-200', 'border-slate-300');
             }, 2000);
         }
     </script>
